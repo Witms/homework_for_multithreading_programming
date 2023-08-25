@@ -17,6 +17,9 @@ int main()
 	{
 		try
 		{
+			Logger logger;
+			std::thread tr(logger);
+			tr.join();
 			 recievePackage(command);
 			 sstr << cb.ApplyCommand(goon, command).str();
 			 sendPackage(sstr);
