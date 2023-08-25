@@ -7,6 +7,7 @@
 
 int main()
 {	
+
 	makeSocket();
 	bool goon = true;
 	aiafpb1::ChatBot cb;
@@ -17,9 +18,6 @@ int main()
 		try
 		{
 			 recievePackage(command);
-			 Logger LogOb;
-			 std::thread t1(LogOb, command);
-			 t1.join();
 			 sstr << cb.ApplyCommand(goon, command).str();
 			 sendPackage(sstr);
 		}

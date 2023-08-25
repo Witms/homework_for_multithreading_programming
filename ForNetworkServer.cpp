@@ -1,4 +1,5 @@
 #include "ForNetworkServer.h"
+#include "Logger.h"
 
 
 char buffer[PACKAGE_BUFFER];
@@ -30,6 +31,10 @@ void recievePackage(std::string &str) {
 		exit(0);
 	}
 	str = buffer;
+	Logger logg;
+	std::thread t1(logg, str);
+	if(t1.joinable())
+		t1.join();
 
 }
 
@@ -47,10 +52,17 @@ void recievePackage(aiafpb1::CB_command &cmd) {
 	str << buffer;
 	str >> cmd;
 
-
+	Logger logg;
+	std::thread t2(logg, str.str());
+	if(t2.joinable())
+		t2.join();
 }
 
 void sendPackage(std::stringstream& sstr) {
 	strcpy(package, sstr.str().c_str());
+	Logger logg;
+	std::thread t3(logg, sstr.str());
+	if(t3.joinable())
+		t3.join();
 	sendto(socket_file_descriptor, package, PACKAGE_BUFFER, 0, (struct sockaddr*) &client, sizeof(client));
 }
